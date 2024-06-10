@@ -1,0 +1,49 @@
+provider "google" {
+  project = "sre-testing-363305"
+  region  = "asia-east1"
+  credentials = "/Users/davindersingh/.ssh/sre-testing-363305-10caebfe813b.json"
+}
+
+resource "google_compute_instance" "webserver" {
+  name = "webserver"
+  machine_type = "n2-standard-2"
+  zone = "asia-east1-a"
+  
+ boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"  # Ubuntu 20.04 LTS image
+    }
+  }
+    network_interface {
+    network    = "sre-testing"
+    subnetwork = "sre-team"
+    access_config {}
+  }
+
+  tags = ["webserver"]
+  metadata_startup_script = file("webserver.sh")
+}
+
+resource "google_compute_instance" "dbserver" {
+  name = "dbserver"
+  machine_type = "n2-standard-2"
+  zone = "asia-east1-a"
+ boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"  # Ubuntu 20.04 LTS image
+    }
+  }
+    network_interface {
+    network    = "sre-testing"
+    subnetwork = "sre-team"
+
+    access_config {}
+  }
+
+  tags = ["dbserver"]
+  metadata_startup_script = file("db.sh")
+}
+
+
+  
+
