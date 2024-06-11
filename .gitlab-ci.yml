@@ -1,0 +1,13 @@
+image: ubuntu:20.04
+stages:
+  - deploy
+deploy:
+    stage: deploy
+    script:
+      - apt-get update
+      - apt-get install -y python3
+      - python3 -m http.server 8000 &
+      - sleep 5
+      - ssh user@your-server-ip "cd /path/to/deploy && git clone your-repo-url"
+      - ssh user@your-server-ip "cd /path/to/deploy/your-repo && python3 server.py"
+

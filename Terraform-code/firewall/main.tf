@@ -1,10 +1,10 @@
-resource "google_compute_network" "default" {
-  name = "sre-testing"
+resource "google_compute_network" "sre-ports" {
+  name = "sre-testing-default"
 }
 
 resource "google_compute_firewall" "default-ssh" {
   name    = "default-allow-ssh"
-  network = google_compute_network.default.self_link
+  network = google_compute_network.sre-ports.self_link
 
   allow {
     protocol = "tcp"
@@ -17,7 +17,7 @@ resource "google_compute_firewall" "default-ssh" {
 
 resource "google_compute_firewall" "default-http-https" {
   name    = "default-allow-http-https"
-  network = google_compute_network.default.self_link
+  network = google_compute_network.sre-ports.self_link
 
   allow {
     protocol = "tcp"
@@ -30,7 +30,7 @@ resource "google_compute_firewall" "default-http-https" {
 
 resource "google_compute_firewall" "default-mysql" {
   name    = "default-allow-mysql"
-  network = google_compute_network.default.self_link
+  network = google_compute_network.sre-ports.self_link
 
   allow {
     protocol = "tcp"
